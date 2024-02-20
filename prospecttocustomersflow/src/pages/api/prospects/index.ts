@@ -13,6 +13,8 @@ const prospectSchema = Joi.object({
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   await dbConnect();
 
+  const { id } = req.query;
+  console.log(`[${req.method}] handler = ${id}`);
   switch (req.method) {
     case 'GET':
       try {
@@ -39,25 +41,36 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     break;
 
     case 'PUT':
-      try {
-        const value = await prospectSchema.validateAsync(req.body);
-        const updatedProspect = await Prospect.findByIdAndUpdate(req.query.id, value, {
-          new: true, // Renvoie le prospect mis à jour
-        });
-        res.status(200).json(updatedProspect);
-      } catch (error) {
-        // Gérer l'erreur de mise à jour ici
+      if (id) {
+        try {
+          const value = await prospectSchema.validateAsync(req.body);
+          const updatedProspect = await Prospect.findByIdAndUpdate(id, value, {
+            new: true, // Renvoie le prospect mis à jour
+          });
+          res.status(200).json(updatedProspect);
+        } catch (error) {
+          res.status(500).json({ success: false, error: 'Erreur lors de la mise à jour du prospect.' });
+        }
+      } else {
+        res.status(400).json({ error: 'ID du prospect requis pour la mise à jour.' });
       }
       break;
     
-    case 'DELETE':
-      try {
-        await Prospect.findOneAndDelete({ _id: req.query.id });
-        res.status(204).end(); // 204 signifie "No Content" (suppression réussie)
-      } catch (error) {
-        // Gérer l'erreur de suppression ici
-      }
-      break;
+    
+      case 'DELETE':
+        if (id) {
+          try {
+            await Prospect.findOneAndDelete({ _id: id });
+            res.status(204).end(); // Réponse succès sans contenu
+          } catch (error: any) {
+            console.error(`Erreur lors de la suppression : ${error.message}`);
+            res.status(500).json({ success: false, error: 'Erreur lors de la suppression du prospect.' });
+          }
+        } else {
+          res.status(400).json({ error: 'ID du prospect requis pour la suppression.' });
+        }
+        break;
+      
       
     default:
       res.setHeader('Allow', ['GET', 'POST']);

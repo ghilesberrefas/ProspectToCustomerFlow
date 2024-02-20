@@ -55,12 +55,13 @@ const AddProspect = () => {
       });
 
       if (response.ok) {
+        const newProspect = await response.json();
+        setProspects([...prospects, newProspect]); 
         // Réinitialiser les champs du formulaire après l'ajout réussi
         setNom('');
         setEmail('');
         setInterets('');
         setStatut('Prospect');
-        alert('Prospect ajouté avec succès.');
       } else {
         // Afficher un message d'erreur si l'ajout échoue
         const errorData = await response.json();
@@ -75,7 +76,7 @@ const AddProspect = () => {
   const supprimerProspect = async (prospectId: string) => {
     if (window.confirm('Êtes-vous sûr de vouloir supprimer ce prospect ?')) {
       try {
-        const response = await fetch(`/api/prospects/${prospectId}`, {
+        const response = await fetch(`/api/prospects?id=${prospectId}`, {
           method: 'DELETE',
         });
   
@@ -83,7 +84,6 @@ const AddProspect = () => {
           // La suppression s'est bien déroulée côté serveur, maintenant met à jour l'état client
           const updatedProspects = prospects.filter((prospect) => prospect._id !== prospectId);
           setProspects(updatedProspects);
-          alert('Prospect supprimé avec succès.');
         } else {
           // Gérer le cas où la suppression échoue côté serveur
           const errorData = await response.json();
@@ -97,6 +97,7 @@ const AddProspect = () => {
     }
   };
   
+  
   const modifierProspect = async (prospect: Prospect) => {
     // Tu peux utiliser un état local pour stocker les données du prospect à modifier
     setEnEdition(true);
@@ -109,7 +110,8 @@ const AddProspect = () => {
   };
 
   // Ensuite, tu peux ajouter une logique pour soumettre les modifications lorsque l'utilisateur clique sur un bouton de mise à jour
-  const soumettreModification = async () => {
+  const soumettreModification = async (e: FormEvent) => {
+    e.preventDefault();
     try {
       if (prospectEnCoursDeModification) {
         const body = { 
@@ -118,15 +120,15 @@ const AddProspect = () => {
           interets: interets.split(',').map(interet => interet.trim()), 
           statut,
         };
-        const response = await fetch(`/api/prospects/${prospectEnCoursDeModification._id}`, {
+        const response = await fetch(`/api/prospects?id=${prospectEnCoursDeModification._id}`, {
           method: 'PUT',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(body),
         });
   
         if (response.ok) {
-          // La mise à jour s'est bien déroulée côté serveur, maintenant actualise l'état client si nécessaire
-          alert('Prospect mis à jour avec succès.');
+          const updatedProspect = await response.json(); // Assurez-vous que l'API renvoie le prospect mis à jour
+          setProspects(prospects.map(p => p._id === updatedProspect._id ? updatedProspect : p));
         } else {
           // Gérer le cas où la mise à jour échoue côté serveur
           const errorData = await response.json();
