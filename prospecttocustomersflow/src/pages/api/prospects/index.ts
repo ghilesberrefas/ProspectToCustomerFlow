@@ -7,7 +7,7 @@ const prospectSchema = Joi.object({
   nom: Joi.string().required(),
   email: Joi.string().email().required(),
   interets: Joi.array().items(Joi.string()),
-  statut: Joi.string().valid('Prospect', 'Client').required(),
+  statut: Joi.string().valid('Prospect').required(),
 });
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {

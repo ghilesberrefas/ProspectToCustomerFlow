@@ -1,16 +1,10 @@
-import Link from 'next/link';
+
 
 export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-       <div className="text-center">
-       <Link href="/addProspect" legacyBehavior>
-        <a className="mt-4 inline-block bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700 transition duration-300">
-          Gérer les Prospects
-        </a>
-      </Link>
-      </div>
-
-    </main>
+    <div className="flex min-h-screen bg-gray-50 text-gray-800 flex-col items-center justify-center p-24 text-center">
+      <h1 className="text-4xl font-bold mb-4">Bienvenue dans d&apos;Application de Gestion Commerciale</h1>
+      <p>Bien gérer vos prospects et convertissez-les efficacement en clients.</p>
+    </div>
   );
 }

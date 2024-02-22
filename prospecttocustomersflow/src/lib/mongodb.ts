@@ -22,7 +22,6 @@ if (!global._mongoCache) {
   global._mongoCache = { conn: null, promise: null };
 }
 
-// Fonction pour connecter à MongoDB
 async function dbConnect(): Promise<mongoose.Connection> {
   if (global._mongoCache!.conn) {
     return global._mongoCache!.conn;
