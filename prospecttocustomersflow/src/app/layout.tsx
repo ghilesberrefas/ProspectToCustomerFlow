@@ -17,8 +17,18 @@ export default function RootLayout({ children }: { children: React.ReactNode; })
             </Link>
           </li>
           <li>
-            <Link href="/addClient" className="hover:text-blue-300 transition duration-300">
+            <Link href="/clients" className="hover:text-blue-300 transition duration-300">
               Gérer les Clients
+            </Link>
+          </li>
+          <li>
+            <Link href="/interactions" className="hover:text-blue-300 transition duration-300">
+             Interactions
+            </Link>
+          </li>
+          <li>
+            <Link href="/statisticsChart" className="hover:text-blue-300 transition duration-300">
+             Tableau de Bord 
             </Link>
           </li>
           {/* Ajoutez d'autres liens de navigation selon les besoins */}
@@ -44,7 +54,7 @@ export default function RootLayout({ children }: { children: React.ReactNode; })
 //           <Link href="/addProspect">
 //             <a className="hover:text-blue-400 transition duration-300">Gérer les Prospects</a>
 //           </Link>
-//           <Link href="/addClient">
+//           <Link href="/clients">
 //             <a className="hover:text-blue-400 transition duration-300">Gérer les Clients</a>
 //           </Link>
 //         </div>
