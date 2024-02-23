@@ -13,7 +13,7 @@ interface Client {
   informationsPaiement: string;
 }
 
-const AddClient = () => {
+const Clients = () => {
   const [clients, setClients] = useState<Client[]>([]);
   // Utilisez des états pour chaque champ requis pour un client
   const [nom, setNom] = useState<string>('');
@@ -25,11 +25,13 @@ const AddClient = () => {
   const [enEdition, setEnEdition] = useState<boolean>(false);
   const [clientEnCoursDeModification, setClientEnCoursDeModification] = useState<Client | null>(null);
   const [errorMessage, setErrorMessage] = useState<string>('');
+  const [loading, setLoading] = useState(false);
   
 
   // Charger la liste des clients lors du chargement de la page
   useEffect(() => {
     const fetchClients = async () => {
+      setLoading(true);
       try {
         const response = await fetch('/api/clients');
         if (response.ok) {
@@ -43,6 +45,8 @@ const AddClient = () => {
         console.error('Erreur lors de la récupération des Clients:', error);
         logError(`Erreur lors de la récupération des Clients: ${error}`);
         setErrorMessage('Impossible de charger les Clients. Veuillez réessayer plus tard.');
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -135,7 +139,14 @@ const AddClient = () => {
     setEnEdition(false);
   };
 
-  // UI pour ajouter ou modifier des clients, similaire à celle pour les prospects
+  if (loading) {
+    return (
+      <div className="min-h-screen flex justify-center items-center bg-gray-50 text-gray-800">
+        <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-gray-900"></div>
+        <span className="sr-only">Chargement...</span>
+      </div>
+    );
+  }
 
   return (
 
@@ -261,4 +272,4 @@ const AddClient = () => {
   );
 };
 
-export default AddClient;
+export default Clients;

@@ -17,7 +17,7 @@ export const logError = async (message: string) => {
 };
 
 
-interface Prospect {
+export interface Prospect {
   _id: string;
   nom: string;
   email: string;
@@ -40,9 +40,11 @@ const AddProspect = () => {
   const [prospects, setProspects] =  useState<Prospect[]>([]);
   const [prospectEnCoursDeModification, setProspectEnCoursDeModification] = useState<Prospect | null>(null);
   const [prospectEnCoursDeConversion, setProspectEnCoursDeConversion] = useState<Prospect | null>(null);
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
   // Utilise useEffect pour charger la liste des prospects lors du chargement de la page
   useEffect(() => {
+    setLoading(true);
     const fetchProspects = async () => {
       try {
         const response = await fetch('/api/prospects');
@@ -56,6 +58,8 @@ const AddProspect = () => {
         console.error('Erreur lors de la récupération des prospects:', error);
         logError(`Erreur lors de la récupération des prospects: ${error}`);
         setErrorMessage('Impossible de charger les prospects. Veuillez réessayer plus tard.');
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -204,7 +208,7 @@ const SubmitConversion = async (e: FormEvent) => {
           const newClient = await response.json();
           console.log('Client créé avec succès:', newClient);
           // alert(`Client créé avec succès`);
-          router.push('/addClient');
+          router.push('/clients');
           
         } else if (response.status === 409) {
           setErrorMessage("Ce prospect a déjà été converti en client.");
@@ -241,6 +245,15 @@ const SubmitConversion = async (e: FormEvent) => {
     setEmail('');
     setEmail('');
     setInterets('');
+  }
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex justify-center items-center bg-gray-50 text-gray-800">
+        <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-gray-900"></div>
+        <span className="sr-only">Chargement...</span>
+      </div>
+    );
   }
 
   return (
@@ -343,7 +356,7 @@ const SubmitConversion = async (e: FormEvent) => {
   </div> )
       :(
       <div className="max-w-xl mx-auto">
-        <h3 className="text-xl font-semibold mb-4">Ajouter Prospect</h3>
+        <h3 className="text-xl font-semibold mb-4">Ajouter un Prospect</h3>
         <form onSubmit={handleSubmit} className="space-y-4">
           <input
             className="w-full p-2 border rounded"
@@ -373,7 +386,7 @@ const SubmitConversion = async (e: FormEvent) => {
             type="submit"
             className="w-full py-2 bg-green-500 text-white rounded hover:bg-green-600"
           >
-            Ajouter Prospect
+            Ajouter 
           </button>
         </form>
       </div>
@@ -409,17 +422,19 @@ const SubmitConversion = async (e: FormEvent) => {
               <td className="px-6 py-4">{prospect.interets.join(', ')}</td>
               <td className="px-6 py-4">{prospect.statut}</td>
               <td>
-              {prospect.statut === "Prospect" ? (   
+              {prospect.statut === "Prospect" ? ( 
+              <>
                 <button onClick={() => supprimerProspect(prospect._id)}
                   className="font-medium text-red-600 dark:text-red-500 hover:underline"
-                >Supprimer</button>) : ''}
+                >Supprimer</button>
                 <button onClick={() => modifierProspect(prospect)}
                   className="font-medium text-blue-600 dark:text-blue-500 hover:underline ml-2"
                 >Modifier</button>
-                {prospect.statut === "Prospect" ? (                
                   <button onClick={() => converitEnClient(prospect)}
                   className="font-medium text-600 dark:text-green-500 hover:underline ml-2"
-                >Convertir en client</button>) : ''}
+                >Convertir en client</button>
+              </>
+                ) : '' }
 
               </td>
             </tr>
