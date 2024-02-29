@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import "./globals.css";
 
-export default function RootLayout({ children }: { children: React.ReactNode; }) {
+export default function RootLayout({ children }: { readonly children: React.ReactNode; }) {
   return (
     <>
       <nav className="bg-gray-800 text-white p-4">

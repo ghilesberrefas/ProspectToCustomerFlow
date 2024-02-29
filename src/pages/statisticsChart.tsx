@@ -18,14 +18,14 @@ interface ChartData {
 const StatisticsChart = () => {
   const [chartData, setChartData] = useState<ChartData>();
   const [loading, setLoading] = useState(true);
-  const [conversionRate, setconversionRate] = useState<number>();
+  const [conversionRate, setConversionRate] = useState<number>(0);
 
   const fetchStatistics = async () => {
     setLoading(true);
     try {
         const response = await fetch('/api/statistics/conversion-rate');
         const { totalProspects, totalClients, conversionRate } = await response.json();
-        setconversionRate(conversionRate);
+        setConversionRate(conversionRate);
         setChartData({
           labels: ['Prospects', 'Clients'],
           datasets: [

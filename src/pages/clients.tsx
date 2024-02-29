@@ -61,7 +61,8 @@ const Clients = () => {
           setClients(updatedclients);
         } else {
           const errorData = await response.json();
-          throw new Error();
+          logError(`Erreur lors de la supprision du client : ${errorData.error}`);
+          throw new Error(`Erreur lors de la supprision du client: ${errorData.error}`);
         }
       } catch (error: any) {
         logError(`Erreur lors de la suppression du client : ${error}`);
@@ -92,7 +93,6 @@ const Clients = () => {
             const updatedClient = await response.json();
             setClients(clients.map(c => c._id === updatedClient._id ? updatedClient : c));
             setEnEdition(false); 
-            // resetForm(); 
         } else {
           const errorData = await response.json();
           logError(`Erreur lors de la mise à jour : ${errorData.error}`);

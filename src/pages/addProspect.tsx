@@ -1,4 +1,3 @@
-import React from 'react';
 import { useRouter } from 'next/router';
 import { useState, FormEvent, useEffect } from 'react';
 
@@ -237,7 +236,7 @@ const SubmitConversion = async (e: FormEvent) => {
     setEmail('');
     setInterets('');
   }
-  
+
   let contenu;
 
   if (enEdition) {
