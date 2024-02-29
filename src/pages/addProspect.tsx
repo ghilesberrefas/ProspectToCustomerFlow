@@ -115,6 +115,7 @@ const AddProspect = () => {
           setErrorMessage('');
         } else {
           const errorData = await response.json();
+          logError(`Erreur lors de la supression du prospect: ${errorData.error}`);
           throw new Error();
         }
       } catch (error: any) {
@@ -197,7 +198,7 @@ const SubmitConversion = async (e: FormEvent) => {
           body: JSON.stringify(body),
         });
         if (response.ok) {
-          const newClient = await response.json();
+          await response.json();
           router.push('/clients');
           
         } else if (response.status === 409) {
@@ -236,26 +237,11 @@ const SubmitConversion = async (e: FormEvent) => {
     setEmail('');
     setInterets('');
   }
+  
+  let contenu;
 
-  if (loading) {
-    return (
-      <div className="min-h-screen flex justify-center items-center bg-gray-50 text-gray-800">
-        <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-gray-900"></div>
-        <span className="sr-only">Chargement...</span>
-      </div>
-    );
-  }
-
-  return (
-    <div className="min-h-screen bg-gray-50 text-gray-800 py-10 px-4 sm:px-6 lg:px-8">
-    {errorMessage && (
-        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
-          <strong className="font-bold">Erreur ! </strong>
-          <span className="block sm:inline">{errorMessage}</span>
-        </div>
-    )}
-    <h2 className="text-2xl font-bold text-center mb-6">Gestion des Prospects</h2>
-    {enEdition ? (
+  if (enEdition) {
+    contenu = (
       <div className="max-w-xl mx-auto">
         <h3 className="text-xl font-semibold mb-4">Modifier Prospect</h3>
         <form onSubmit={soumettreModification} className="space-y-4">
@@ -299,7 +285,10 @@ const SubmitConversion = async (e: FormEvent) => {
           </div>
         </form>
       </div>
-    ) : enConversion ? ( <div className="max-w-xl mx-auto">
+    );
+  } else if (enConversion) {
+    contenu = (
+      <div className="max-w-xl mx-auto">
     <h3 className="text-xl font-semibold text-red-600 mb-4">Merci de remplir les champs suivants pour {prospectEnCoursDeConversion ? prospectEnCoursDeConversion.nom : ''}.</h3>
     <form onSubmit={SubmitConversion} className="space-y-4">
         <input
@@ -343,8 +332,10 @@ const SubmitConversion = async (e: FormEvent) => {
         </button>
       </div>
     </form>
-  </div> )
-      :(
+  </div> 
+    );
+  } else {
+    contenu = (
       <div className="max-w-xl mx-auto">
         <h3 className="text-xl font-semibold mb-4">Ajouter un Prospect</h3>
         <form onSubmit={handleSubmit} className="space-y-4">
@@ -380,7 +371,28 @@ const SubmitConversion = async (e: FormEvent) => {
           </button>
         </form>
       </div>
+    );
+  }
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex justify-center items-center bg-gray-50 text-gray-800">
+        <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-gray-900"></div>
+        <span className="sr-only">Chargement...</span>
+      </div>
+    );
+  }
+
+  return (
+    <div className="min-h-screen bg-gray-50 text-gray-800 py-10 px-4 sm:px-6 lg:px-8">
+    {errorMessage && (
+        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+          <strong className="font-bold">Erreur ! </strong>
+          <span className="block sm:inline">{errorMessage}</span>
+        </div>
     )}
+    <h2 className="text-2xl font-bold text-center mb-6">Gestion des Prospects</h2>
+    {contenu}
 
 <h2 className="text-2xl font-bold text-center my-6">Liste des Prospects</h2>
     <div className="overflow-x-auto shadow-md sm:rounded-lg">
