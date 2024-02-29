@@ -1,7 +1,7 @@
 import mongoose, { Document } from 'mongoose';
 
 export interface IClient extends Document {
-  prospectId: mongoose.Types.ObjectId; // Clé étrangère pointant l'ID du Prospect
+  prospectId: mongoose.Types.ObjectId; // Foreign key pointing to Prospect ID
   adresse: string | null;
   numeroTelephone: string | null;
   informationsPaiement: string | null;

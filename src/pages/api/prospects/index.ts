@@ -14,7 +14,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   await dbConnect();
 
   const { id } = req.query;
-  console.log(`[${req.method}] handler = ${id}`);
   switch (req.method) {
     case 'GET':
       try {
@@ -45,7 +44,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         try {
           const value = await prospectSchema.validateAsync(req.body);
           const updatedProspect = await Prospect.findByIdAndUpdate(id, value, {
-            new: true, // Renvoie le prospect mis à jour
+            new: true, 
           });
           res.status(200).json(updatedProspect);
         } catch (error) {
@@ -61,7 +60,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         if (id) {
           try {
             await Prospect.findOneAndDelete({ _id: id });
-            res.status(204).end(); // Réponse succès sans contenu
+            res.status(204).end(); 
           } catch (error: any) {
             console.error(`Erreur lors de la suppression : ${error.message}`);
             res.status(500).json({ success: false, error: 'Erreur lors de la suppression du prospect.' });

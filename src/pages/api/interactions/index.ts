@@ -20,7 +20,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     case 'GET':
         try {
           const interactions = await Interaction.find({});
-          console.log(interactions)
           res.status(200).json(interactions);
         } catch (error: any) {
           res.status(400).json({ success: false, error: error.message });

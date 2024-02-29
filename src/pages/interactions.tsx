@@ -20,7 +20,6 @@ const Interactions = () => {
   const [loading, setLoading] = useState(false);
   const [interactionsEnCoursDeModification, setInteractionsEnCoursDeModification] = useState<Interaction | null>(null);
   
-  // Charger les interactions depuis l'API
   useEffect(() => {
     const fetchInteractions = async () => {
       setLoading(true);
@@ -44,7 +43,6 @@ const Interactions = () => {
           }
           const data = await response.json();
           setProspects(data);
-          console.log(data);
         } catch (error) {
           console.error("Erreur lors du chargement des prospects:", error);
         } finally {
@@ -56,7 +54,6 @@ const Interactions = () => {
     fetchInteractions();
   }, []);
 
-  // Ajouter une interaction
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
@@ -69,9 +66,7 @@ const Interactions = () => {
       });
       if (response.ok) {
         const newInteraction = await response.json();
-        console.log(newInteraction);
         setInteractions([...interactions, newInteraction]);
-        // Réinitialiser le formulaire
         setType('');
         setDate('');
         setNotes('');
@@ -104,8 +99,8 @@ const Interactions = () => {
   const formatDate = (dateString : string) => {
     const date = new Date(dateString);
     const year = date.getFullYear();
-    const month = (`0${date.getMonth() + 1}`).slice(-2); // Ajoute un zéro devant pour les mois de 1 à 9
-    const day = (`0${date.getDate()}`).slice(-2); // Ajoute un zéro devant pour les jours de 1 à 9
+    const month = (`0${date.getMonth() + 1}`).slice(-2); // Add a zero in front for months 1 to 9
+    const day = (`0${date.getDate()}`).slice(-2); // Add a zero in front for months 1 to 9
     return `${year}-${month}-${day}`;
   };
 
@@ -159,11 +154,10 @@ const Interactions = () => {
   };
 
   const updateInteraction = async (interaction: Interaction) => {
-    console.log(prospects);
     setEnEdition(true);
-    setProspectId(interaction.prospectId); // Assurez-vous d'utiliser l'_id du prospect
+    setProspectId(interaction.prospectId); 
     setType(interaction.type);
-    setDate(formatDate(interaction.date)); // Utilisez la fonction formatDate ici
+    setDate(formatDate(interaction.date)); 
     setNotes(interaction.notes);
     setInteractionsEnCoursDeModification(interaction);
   };

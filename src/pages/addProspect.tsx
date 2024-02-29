@@ -36,13 +36,12 @@ const AddProspect = () => {
   const [enConversion, setEnConversion] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>('');
   const [informationsPaiement, setInformationsPaiement] = useState<string>('');
-  // État pour stocker la liste des prospects
   const [prospects, setProspects] =  useState<Prospect[]>([]);
   const [prospectEnCoursDeModification, setProspectEnCoursDeModification] = useState<Prospect | null>(null);
   const [prospectEnCoursDeConversion, setProspectEnCoursDeConversion] = useState<Prospect | null>(null);
   const [loading, setLoading] = useState(false);
   const router = useRouter();
-  // Utilise useEffect pour charger la liste des prospects lors du chargement de la page
+
   useEffect(() => {
     setLoading(true);
     const fetchProspects = async () => {
@@ -64,7 +63,7 @@ const AddProspect = () => {
     };
 
     fetchProspects();
-  }, []); // Le tableau vide signifie que cela se produit une seule fois lors du chargement initial
+  }, []); 
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -72,10 +71,9 @@ const AddProspect = () => {
       const body = { 
         nom, 
         email, 
-        interets: interets.split(',').map(interet => interet.trim()), // Transforme la chaîne en tableau
+        interets: interets.split(',').map(interet => interet.trim()), 
         statut,
       };
-      console.log(body);
       const response = await fetch('/api/prospects', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -120,7 +118,6 @@ const AddProspect = () => {
           throw new Error();
         }
       } catch (error: any) {
-        // Gérer les erreurs de réseau ou autres erreurs inattendues
         logError(`Erreur lors de la suppression du prospect : ${error}`);
         setErrorMessage("Erreur lors de la suppression du prospect.");
       }
@@ -155,7 +152,7 @@ const AddProspect = () => {
         });
   
         if (response.ok) {
-          const updatedProspect = await response.json(); // Assurez-vous que l'API renvoie le prospect mis à jour
+          const updatedProspect = await response.json(); 
           setProspects(prospects.map(p => p._id === updatedProspect._id ? updatedProspect : p));
           setErrorMessage('');
         } else {
@@ -177,7 +174,6 @@ const AddProspect = () => {
   
     
   const annulerEdition = () => {
-    // Désactive le mode d'édition et réinitialise le formulaire
     setEnEdition(false);
     setNom('');
     setEmail('');
@@ -188,7 +184,6 @@ const AddProspect = () => {
 const SubmitConversion = async (e: FormEvent) => {
     e.preventDefault();
     try {
-      // Vérifiez si le prospect en cours de conversion est défini
       if (prospectEnCoursDeConversion) {
         const body = {
           prospectId: prospectEnCoursDeConversion._id,
@@ -196,18 +191,13 @@ const SubmitConversion = async (e: FormEvent) => {
           numeroTelephone,
           informationsPaiement,
         };
-  
-        // Envoyez une requête POST à votre endpoint API pour créer le client
         const response = await fetch('/api/clients', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(body),
         });
-        console.log(response);
         if (response.ok) {
           const newClient = await response.json();
-          console.log('Client créé avec succès:', newClient);
-          // alert(`Client créé avec succès`);
           router.push('/clients');
           
         } else if (response.status === 409) {

@@ -1,6 +1,5 @@
-// components/StatisticsChart.tsx
 import React, { useState, useEffect } from 'react';
-import { Bar, Line } from 'react-chartjs-2';
+import { Bar } from 'react-chartjs-2';
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from 'chart.js';
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
@@ -19,7 +18,6 @@ interface ChartData {
 const StatisticsChart = () => {
   const [chartData, setChartData] = useState<ChartData>();
   const [loading, setLoading] = useState(true);
-  const [chartData_2, setChartData_2] = useState({});
   const [conversionRate, setconversionRate] = useState<number>();
 
   const fetchStatistics = async () => {
@@ -71,7 +69,6 @@ const StatisticsChart = () => {
         <div className="text-center mb-6">
           <p className="text-lg">Taux de conversion: {conversionRate ? `${conversionRate.toFixed(2)}%` : 'N/A'}</p>
         </div>
-        {/* Si vous avez d'autres sections, elles peuvent suivre ici */}
       </div>
     </div>
   );

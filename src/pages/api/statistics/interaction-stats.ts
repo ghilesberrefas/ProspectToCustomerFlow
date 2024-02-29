@@ -1,4 +1,3 @@
-// pages/api/interaction-stats.ts
 import type { NextApiRequest, NextApiResponse } from 'next';
 import dbConnect from '../../../lib/mongodb';
 import Interaction from '../../../models/Interaction';

@@ -1,4 +1,3 @@
-// pages/api/statistics.ts
 import type { NextApiRequest, NextApiResponse } from 'next';
 import dbConnect from '../../../lib/mongodb';
 import Prospect from '../../../models/Prospect';

@@ -1,13 +1,12 @@
 import React, { useState, FormEvent, useEffect } from 'react';
 import {logError} from './addProspect'
 
-// Définis une interface pour le client
 interface Client {
   _id: string;
   nom: string;
   email: string;
   interets: string[];
-  statut: 'Client'; // Statut est toujours 'Client' ici
+  statut: 'Client'; 
   adresse: string;
   numeroTelephone: string;
   informationsPaiement: string;
@@ -15,7 +14,6 @@ interface Client {
 
 const Clients = () => {
   const [clients, setClients] = useState<Client[]>([]);
-  // Utilisez des états pour chaque champ requis pour un client
   const [nom, setNom] = useState<string>('');
   const [email, setEmail] = useState<string>('');
   const [interets, setInterets] = useState<string>('');
@@ -28,7 +26,6 @@ const Clients = () => {
   const [loading, setLoading] = useState(false);
   
 
-  // Charger la liste des clients lors du chargement de la page
   useEffect(() => {
     const fetchClients = async () => {
       setLoading(true);
@@ -36,7 +33,6 @@ const Clients = () => {
         const response = await fetch('/api/clients');
         if (response.ok) {
           const data = await response.json();
-          console.log(data);
           setClients(data);
         } else {
             throw new Error();
@@ -53,7 +49,6 @@ const Clients = () => {
     fetchClients();
   }, []);
 
-  // Ajoutez des fonctions pour supprimer et modifier des clients, similaires à celles des prospects
   const supprimerClient = async (clientId: string) => {
     if (window.confirm('Êtes-vous sûr de vouloir supprimer ce client ?')) {
       try {
@@ -69,7 +64,6 @@ const Clients = () => {
           throw new Error();
         }
       } catch (error: any) {
-        // Gérer les erreurs de réseau ou autres erreurs inattendues
         logError(`Erreur lors de la suppression du client : ${error}`);
         setErrorMessage("Erreur lors de la suppression du client.");
       }
@@ -96,12 +90,9 @@ const Clients = () => {
   
         if (response.ok) {
             const updatedClient = await response.json();
-            console.log(updatedClient);
-            console.log(clients);
             setClients(clients.map(c => c._id === updatedClient._id ? updatedClient : c));
-            console.log(clients);
-            setEnEdition(false); // Quitter le mode édition
-            // resetForm(); // Réinitialiser le formulaire
+            setEnEdition(false); 
+            // resetForm(); 
         } else {
           const errorData = await response.json();
           logError(`Erreur lors de la mise à jour : ${errorData.error}`);
@@ -159,7 +150,7 @@ const Clients = () => {
     )}
       <h2 className="text-2xl font-bold text-center mb-6">Gestion des Clients</h2>
 
-      {/* Formulaire pour modifier un client si on clique sur modifier un client */
+      {
         enEdition ? (
             <div className="max-w-xl mx-auto">
         <h3 className="text-xl font-semibold mb-4">Modifier Clients</h3>
@@ -233,7 +224,6 @@ const Clients = () => {
       </div>
         ) : ( <div></div>)
       }
-      {/* Liste des clients */}
     <h2 className="text-2xl font-bold text-center my-6">Liste des Clients</h2>
     <div className="overflow-x-auto shadow-md sm:rounded-lg">
         <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
