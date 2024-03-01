@@ -24,7 +24,9 @@ jobs:
 
       - name: Run Tests with Coverage
         run: npm test --coverage  
-
+        env:
+          MONGODB_URI: ${{ secrets.MONGODB_URI }}
+          
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
         env:

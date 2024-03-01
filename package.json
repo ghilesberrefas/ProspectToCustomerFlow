@@ -6,7 +6,7 @@
     "dev": "shx cp README.md public/README.md && next dev",
     "build": "next build",
     "start": "next start",
-    "test": "jest --silent",
+    "test": "jest",
     "lint": "next lint"
   },
   "dependencies": {
