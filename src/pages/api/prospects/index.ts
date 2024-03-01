@@ -44,7 +44,8 @@ async function updateProspect(req: NextApiRequest, res: NextApiResponse) {
     const value = await prospectSchema.validateAsync(req.body);
     const updatedProspect = await Prospect.findByIdAndUpdate(id, value, { new: true });
     res.status(200).json(updatedProspect);
-  } catch (error) {
+  } catch (error: any) {
+    console.log(`Erreur lors de la updateProspect : ${error.message}`);
     res.status(500).json({ success: false, error: 'Erreur lors de la mise à jour du prospect.' });
   }
 }
