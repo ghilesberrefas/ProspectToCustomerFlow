@@ -1,5 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import handler from '../../src/pages/api/prospects/index';
+import mongoose from 'mongoose';
 
 const mockRequest = (sessionData: Partial<NextApiRequest> = {}) => {
   return {
@@ -109,6 +110,9 @@ describe("/api/prospects", () => {
   });
 
   afterAll(async () => {
+    if (mongoose.connection.readyState === mongoose.ConnectionStates.connected) {
+        await mongoose.connection.close();
+    }
     const deleteReq1 = mockRequest({ method: 'DELETE', query: { id: createdProspectId1 } });
     const deleteReq2 = mockRequest({ method: 'DELETE', query: { id: createdProspectId2 } });
     const deleteRes = mockResponse();
