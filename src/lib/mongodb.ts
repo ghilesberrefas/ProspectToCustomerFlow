@@ -7,7 +7,7 @@ type MongoCache = {
 };
 
 // Vérifie que MONGODB_URI est défini
-const MONGODB_URI = process.env.MONGODB_URI || '';
+const MONGODB_URI = process.env.MONGODB_URI ?? '';
 if (!MONGODB_URI) {
   throw new Error('The MONGODB_URI must be defined');
 }

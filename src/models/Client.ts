@@ -15,4 +15,4 @@ const clientSchema = new mongoose.Schema({
 }, { timestamps: true });
 
 
-export default mongoose.models.Client || mongoose.model<IClient>('Client', clientSchema);
+export default mongoose.models.Client ?? mongoose.model<IClient>('Client', clientSchema);

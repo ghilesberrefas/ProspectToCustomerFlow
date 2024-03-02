@@ -16,4 +16,4 @@ const prospectSchema = new mongoose.Schema({
   historiqueInteractions: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Interaction' }],
 }, { timestamps: true });
 
-export default mongoose.models.Prospect || mongoose.model<IProspect>('Prospect', prospectSchema);
+export default mongoose.models.Prospect ?? mongoose.model<IProspect>('Prospect', prospectSchema);

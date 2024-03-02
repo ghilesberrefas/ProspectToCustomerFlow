@@ -280,7 +280,7 @@ const Interactions = () => {
                 const prospectNom = prospects.find(p => p._id.toString() === interaction.prospectId?.toString())?.nom;                
                 return (
                   <tr key={interaction._id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                    <td className="px-6 py-4">{prospectNom || 'Nom non trouvé'}</td>
+                    <td className="px-6 py-4">{prospectNom ?? 'Nom non trouvé'}</td>
                     <td className="px-6 py-4">{interaction.type}</td>
                     <td className="px-6 py-4">{interaction.date}</td>
                     <td className="px-6 py-4">{interaction.notes}</td>

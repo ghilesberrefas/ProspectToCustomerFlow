@@ -14,4 +14,4 @@ const interactionSchema = new mongoose.Schema({
   prospectId: { type: mongoose.Schema.Types.ObjectId, ref: 'Prospect', required: true},
 }, { timestamps: true });
 
-export default mongoose.models.Interaction || mongoose.model<IInteraction>('Interaction', interactionSchema);
+export default mongoose.models.Interaction ?? mongoose.model<IInteraction>('Interaction', interactionSchema);
