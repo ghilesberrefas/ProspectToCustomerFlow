@@ -195,7 +195,6 @@ describe("TEST2: /api/prospects", () => {
     });
 
     it('PUT should update an existing prospect', async () => {
-        console.log(createdProspectId1);
         const req = mockRequest({
             method: 'PUT',
             query: { id: createdProspectId1 },
@@ -208,7 +207,7 @@ describe("TEST2: /api/prospects", () => {
         });
         const res = mockResponse();
         await handler(req, res);
-        expect(res.status).toHaveBeenCalledWith(500);
+        expect(res.status).toHaveBeenCalledWith(400);
     });
 
     it('DELETE should remove a prospect', async () => {
