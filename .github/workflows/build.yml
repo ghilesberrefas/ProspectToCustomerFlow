@@ -28,7 +28,7 @@ jobs:
           MONGODB_URI: ${{ secrets.MONGODB_URI }}
 
       - name: List coverage directory
-        run: ls -l ./coverage
+        run: ls -lt
                 
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
