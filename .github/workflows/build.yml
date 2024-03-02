@@ -33,7 +33,7 @@ jobs:
         run: ls -lt
         
       - name: List coverage directory
-        run: cd ./coverage
+        run: cd .
         
       - name: PWD 
         run: pwd
