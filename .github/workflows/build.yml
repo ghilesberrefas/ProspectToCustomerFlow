@@ -26,7 +26,18 @@ jobs:
         run: npm test --coverage  
         env:
           MONGODB_URI: ${{ secrets.MONGODB_URI }}
-
+      - name: Display pwd
+        run: pwd
+        
+      - name: List coverage directory
+        run: ls -lt
+        
+      - name: List coverage directory
+        run: cd ./coverage
+        
+      - name: PWD 
+        run: pwd
+        
       - name: List coverage directory
         run: ls -lt
                 
