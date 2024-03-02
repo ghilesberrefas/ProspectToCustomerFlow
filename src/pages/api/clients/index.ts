@@ -139,7 +139,7 @@ async function putClient(req: NextApiRequest, res: NextApiResponse) {
 }
 
 function handleError(res: NextApiResponse, error: any, message: string) {
-  console.error(message, error);
+  console.log(message, error);
   res.status(400).json({ success: false, error: message });
 }
 

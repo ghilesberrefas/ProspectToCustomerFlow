@@ -60,7 +60,7 @@ async function deleteProspect(req: NextApiRequest, res: NextApiResponse) {
     await Prospect.findOneAndDelete({ _id: id });
     res.status(204).end();
   } catch (error: any) {
-    console.error(`Erreur lors de la suppression : ${error.message}`);
+    console.log(`Erreur lors de la suppression : ${error.message}`);
     res.status(500).json({ success: false, error: 'Erreur lors de la suppression du prospect.' });
   }
 }
